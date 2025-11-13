@@ -1,0 +1,46 @@
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// Middleware
+app.use(express.json());
+
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch((error) => console.error("❌ Error:", error));
+
+// Import models
+const Task = require("./models/Task");
+const Session = require("./models/Session");
+
+// Root route
+app.get("/", (req, res) => {
+  res.json({
+    message: "FocusTools API",
+    status: "Running",
+    endpoints: {
+      tasks: "/api/tasks",
+      sessions: "/api/sessions",
+    },
+  });
+});
+
+// TODO: Add your Task routes here
+// POST /api/tasks
+// GET /api/tasks
+// GET /api/tasks/:id
+// PUT /api/tasks/:id
+// DELETE /api/tasks/:id
+
+// TODO: Add your Session routes here
+// POST /api/sessions
+// GET /api/sessions
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
